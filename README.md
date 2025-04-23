@@ -1,5 +1,7 @@
 # Public Mini Gallery
 
+Live Site - https://mini-gallery-dusky.vercel.app/
+
 ## Getting Started
 
 First, run the development server:
@@ -22,7 +24,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 > 🔄 Scroll to navigate media — the centered thumbnail updates the main viewer and the URL in real time.
 
-### 🏠 Homepage (`/`)
+### Homepage (`/`)
 
 - Displays a **masonry grid layout** of thumbnails
 - Uses `react-masonry-css` for responsive columns with varying heights
@@ -31,7 +33,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
   - `?limit=10&offset=0`
 - Gallery state is stored in a global **React Context**, preventing re-fetching
 
-### 🔍 Detail Page (`/[id]`)
+### Detail Page (`/[id]`)
 
 - Shows the **full-size image or video** in the main viewer
 - Displays metadata (author, prompt, tags, upload date, likes) in column 2
@@ -42,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
   - **URL updates dynamically** with `router.replace("/[id]")`
 - Ghost spacers (`height: 45vh`) allow the first/last item to scroll into center
 
-### 📦 API
+### API
 
 - Gallery items are served from `/api/gallery`
 - The API supports pagination via query parameters:
