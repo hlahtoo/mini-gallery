@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Public Mini Gallery
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+cd public-mini-gallery
+
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎥 Demo Preview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Gallery View                                                                                                                                                                                                                      | Detail View                                                                                                                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Gallery View](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/public-mini-gallery%2FScreenshot%202025-04-22%20at%2011.21.00%E2%80%AFPM.png?alt=media&token=e3652c58-3bca-4c79-a799-ccc0f2921f07) | ![Detail View](https://firebasestorage.googleapis.com/v0/b/commit-genie.firebasestorage.app/o/public-mini-gallery%2FScreenshot%202025-04-22%20at%2011.21.16%E2%80%AFPM.png?alt=media&token=9b0c3b9c-f842-4be5-8d88-1a16b611050d) |
 
-## Learn More
+> 🔄 Scroll to navigate media — the centered thumbnail updates the main viewer and the URL in real time.
 
-To learn more about Next.js, take a look at the following resources:
+### 🏠 Homepage (`/`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Displays a **masonry grid layout** of thumbnails
+- Uses `react-masonry-css` for responsive columns with varying heights
+- Implements **infinite scroll** using intersection observer
+- Data is fetched in batches from `/api/gallery` using:
+  - `?limit=10&offset=0`
+- Gallery state is stored in a global **React Context**, preventing re-fetching
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🔍 Detail Page (`/[id]`)
 
-## Deploy on Vercel
+- Shows the **full-size image or video** in the main viewer
+- Displays metadata (author, prompt, tags, upload date, likes) in column 2
+- Column 3 is a **scrollable vertical carousel of ranked thumbnails**
+  - Scroll through thumbnails to change the active item
+  - The **centered thumbnail is the active item**
+  - The **main viewer updates automatically**
+  - **URL updates dynamically** with `router.replace("/[id]")`
+- Ghost spacers (`height: 45vh`) allow the first/last item to scroll into center
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📦 API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Gallery items are served from `/api/gallery`
+- The API supports pagination via query parameters:
+  - `?limit=10&offset=30`
+- Items are sorted by:
+  - **Descending like count**
+  - Then by **earliest upload date**
+
+## 📂 Structure Highlights
+
+```bash
+src/
+├── app/
+│   ├── page.tsx              # Homepage
+│   └── [id]/page.tsx         # Detail viewer
+├── components/
+│   └── DetailClient.tsx      # Full scroll-driven client-side UI
+├── context/
+│   └── GalleryContext.tsx    # Global gallery state
+├── data/
+│   └── gallery-data.ts       # Mock image/video data
+├── api/
+│   └── api/gallery.ts        # Gallery API route
+```
