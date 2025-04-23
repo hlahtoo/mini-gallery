@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function DetailClient({ id }: { id: string }) {
-  const { gallery, hasMore, loadMore } = useGallery();
+  const { gallery, loadMore } = useGallery();
   const asideRef = useRef<HTMLDivElement | null>(null);
   const thumbnailRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function DetailClient({ id }: { id: string }) {
     if (el && asideRef.current) {
       el.scrollIntoView({ block: "center", behavior: "auto" });
     }
-  }, []);
+  }, [activeId]);
 
   // Detect scroll and update active media + route
   useEffect(() => {
@@ -48,9 +48,7 @@ export default function DetailClient({ id }: { id: string }) {
     if (!container) return;
 
     const handleScroll = () => {
-      const containerTop = container.scrollTop;
       const containerHeight = container.clientHeight;
-      const centerY = containerTop + containerHeight / 2;
 
       let closestId = activeId;
       let closestDist = Infinity;

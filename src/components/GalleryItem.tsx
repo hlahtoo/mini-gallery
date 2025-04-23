@@ -45,10 +45,10 @@ export default function GalleryItem({ item }: Props) {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="white"
+              fill="gray"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
-              stroke="currentColor"
+              stroke="gray"
               className="w-12 h-12 opacity-80 group-hover:opacity-0 transition duration-200"
             >
               <path

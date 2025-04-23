@@ -1,9 +1,10 @@
-import DetailClient from "@/components/DetailClient";
+import DetailClientWrapper from "@/components/DetailClientWrapper";
 
-type Props = {
-  params: { id: string };
-};
-
-export default function DetailPage({ params }: Props) {
-  return <DetailClient id={params.id} />;
+export default async function DetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <DetailClientWrapper id={id} />;
 }

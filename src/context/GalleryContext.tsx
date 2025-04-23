@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 export type GalleryItem = {
   id: string;
@@ -37,7 +43,7 @@ export function GalleryProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const BATCH_SIZE = 10;
 
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
@@ -53,13 +59,13 @@ export function GalleryProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading, hasMore, offset]);
 
   useEffect(() => {
     if (gallery.length === 0) {
       loadMore(); // initial load
     }
-  }, []);
+  }, [gallery.length, loadMore]);
 
   return (
     <GalleryContext.Provider value={{ gallery, hasMore, loadMore }}>
